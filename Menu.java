@@ -47,12 +47,12 @@ public class Menu {
 				break;
 
 			case 5:
-				System.out.println("\n5. Display Points");
+				System.out.println("\n5. Display Points\n");
 				method.displayPoints();
 				break;
 
 			case 6:
-				System.out.println("\n5. Purchase");
+				System.out.println("\n5. Purchase\n");
 				method.purchase();
 				break;
 
