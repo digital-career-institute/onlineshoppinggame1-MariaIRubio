@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Methods {
-	
+
 	List<VirtualItem> listVirtualItems = new ArrayList<>();
 	List<VirtualItem> shoppingCart = new ArrayList<>();
 	Scanner scanner = new Scanner(System.in);
@@ -55,43 +55,46 @@ public class Methods {
 	}
 
 	public void removeItem() {
-		
-		if(!shoppingCart.isEmpty()) {
-		System.out.print("How many items do you want to remove from the Cart?: ");
-		int items = scanner.nextInt();
-		if(items <= shoppingCart.size()) {
-		for (int i = 0; i < items; i++) {
-			System.out.print("\nEnter the Id of the Item " + (i + 1) + " ");
-			int selectedIdItems = scanner.nextInt();
 
-			boolean found = false;
-			for (VirtualItem item : shoppingCart) {
-				if (item.getItemID() == selectedIdItems) {
-					shoppingCart.remove(item);
-					System.out.println("Item removed from the Cart: " + item.getName());
-					found = true;
-					break;
+		if (!shoppingCart.isEmpty()) {
+			System.out.print("How many items do you want to remove from the Cart?: ");
+			int items = scanner.nextInt();
+			if (items <= shoppingCart.size()) {
+				for (int i = 0; i < items; i++) {
+					System.out.print("\nEnter the Id of the Item " + (i + 1) + " ");
+					int selectedIdItems = scanner.nextInt();
+
+					boolean found = false;
+					for (VirtualItem item : shoppingCart) {
+						if (item.getItemID() == selectedIdItems) {
+							shoppingCart.remove(item);
+							System.out.println("Item removed from the Cart: " + item.getName());
+							found = true;
+							break;
+						}
+					}
+
+					if (!found) {
+						System.out
+								.println("\nItem with ID " + selectedIdItems + " not found. Please enter a valid ID.");
+						i--;
+					}
 				}
+			} else {
+				System.out.println("\nThere is not such amount in your Cart. Take a better look.");
+				System.out.println("You have only " + shoppingCart.size() + " items in your Cart.");
 			}
-
-			if (!found) {
-				System.out.println("\nItem with ID " + selectedIdItems + " not found. Please enter a valid ID.");
-				i--;
-			}
-		}
-		}else {
-			System.out.println("\nThere is not such amount in your Cart. Take a better look.");
-			System.out.println("You have only " + shoppingCart.size() + " items in your Cart.");
-		}
-		}else {
+		} else {
 			System.out.println("Shopping Cart is empty.");
 		}
 	}
 
 	public void displayCart() {
-		if(!shoppingCart.isEmpty()) {
-		shoppingCart.forEach(System.out::println);
-		}else {System.out.println("Shopping Cart is empty");}
+		if (!shoppingCart.isEmpty()) {
+			shoppingCart.forEach(System.out::println);
+		} else {
+			System.out.println("Shopping Cart is empty");
+		}
 	}
 
 	public void displayPoints() {
@@ -100,7 +103,7 @@ public class Methods {
 
 		for (VirtualItem item : shoppingCart) {
 			totalPoints += item.getPoints();
-			System.out.println("-" + item.getName() + " " + item.getPoints() + " points");
+			System.out.println("-" + item.getName() + " -> " + item.getPoints() + " points");
 		}
 		System.out.println("\nYour initial points: " + initialPoints);
 		System.out.println("Points for this purchase: " + totalPoints);
@@ -117,7 +120,7 @@ public class Methods {
 
 	public void purchase() {
 		DecimalFormat decimalFormat = new DecimalFormat("#.##");
-		shoppingCart.forEach(System.out::println);
+		
 		if (!shoppingCart.isEmpty()) {
 			double totalPrice = 0;
 			for (VirtualItem item : shoppingCart) {
@@ -125,7 +128,21 @@ public class Methods {
 				System.out.println("-" + item.getName() + " €" + item.getPrice());
 			}
 			String formattedPrice = decimalFormat.format(totalPrice);
-			System.out.println("Total Price: €" + formattedPrice);
-		}else {System.out.println("\nShopping Cart is empty.");}
+			System.out.println("\nTotal Price: €" + formattedPrice);
+			if (totalPrice >= 30 && totalPrice<50) {
+				System.out.println("\nCongrats! For a purchase bigger than 30€ you get 5% disccount!");
+				double discountPrice = totalPrice - (totalPrice * 5) / 100;
+				String formattedDiscountPrice = decimalFormat.format(discountPrice);
+				System.out.println("Final Price: €" + formattedDiscountPrice);
+			} else if(totalPrice >= 50) {
+				System.out.println("\nCongrats! For a purchase bigger than 50€ you get 15% disccount!");
+				double discountPrice2 = totalPrice - (totalPrice * 15) / 100;
+				String formattedDiscountPrice2 = decimalFormat.format(discountPrice2);
+				System.out.println("Fianl Price: €" + formattedDiscountPrice2);
+			}
+		} else {
+			System.out.println("\nShopping Cart is empty.");
+		}
 	}
 }
+
